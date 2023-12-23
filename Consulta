@@ -1,0 +1,32 @@
+SELECT 
+    c.C_Matriz,
+    c.C_Filial,
+    f.Fazenda,
+    f.Cidade AS CidFazenda,
+    f.Latitude,
+    f.Longitude,
+    l.Dt_lancamento,
+    l.Placa,
+    l.Volume,
+    cl.Classificador,
+    s.Supervisao,
+    d.Destino,
+    sv.Servico
+FROM 
+    Clientes c
+JOIN 
+    Lancamento l ON c.IDCliente = l.IDCliente
+JOIN 
+    Fazenda f ON l.IDFazenda = f.IDFazenda
+JOIN 
+    Classificador cl ON l.IDClassificador = cl.IDClassificador
+JOIN 
+    Supervisao s ON l.IDSupervisao = s.IDSupervisao
+JOIN 
+    Destino d ON l.IDDestino = d.IDDestino
+JOIN 
+    Servico sv ON l.IDServico = sv.IDServico
+WHERE 
+    l.Dt_lancamento >= DATEADD(YEAR, -3, GETDATE())
+ORDER BY 
+    l.Dt_lancamento DESC;
